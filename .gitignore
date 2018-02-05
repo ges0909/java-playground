@@ -1,0 +1,13 @@
+.classpath
+.project
+settings.gradle
+gradlew.bat
+gradlew
+.gradle/
+.settings/
+bin/
+gradle/
+src/main/resources/storyGas/sinceEEMonth.csv
+src/main/resources/storyGas/histProg.csv
+src/main/resources/storyGas/gasMonth.csv
+src/main/resources/storyGas/gas15min.csv
