@@ -10,7 +10,7 @@ import snippet.Resource;
 class ResourceTest {
 	@Test
 	void test_1() {
-		String csvFileName = "storyGas/gasMonth.csv";
+		String csvFileName = "gasMonth.csv";
 		Resource resource = new Resource();
 		String result = resource.getCSV(csvFileName);
 		assertNotNull(result);

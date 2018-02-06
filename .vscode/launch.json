@@ -6,18 +6,23 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Debug (Attach)",
-      "request": "attach",
-      "hostName": "localhost",
-      "port": 0
+      "name": "JUnit5 Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package junit5.test",
+      "stopOnEntry": false
     },
     {
       "type": "java",
-      "name": "Debug (Launch)",
+      "name": "Snippet Tests",
       "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "-c snippet.test.EnumTest -c snippet.test.DateTimeTest -c snippet.test.ResourceTest",
-      "vmArgs": ""
+      "args": "--select-package snippet.test",
+      "stopOnEntry": false
     }
   ]
 }
