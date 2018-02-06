@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class Resource {
-
 	public String getCSV(String csvFileName) {
 		StringBuilder data = new StringBuilder();
 		try {
@@ -22,4 +21,3 @@ public class Resource {
 		return data.toString();
 	}
 }
-

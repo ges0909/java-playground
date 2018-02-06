@@ -16,7 +16,7 @@
       "name": "Debug (Launch)",
       "request": "launch",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "-c snippet.test.EnumTest",
+      "args": "-c snippet.test.EnumTest -c snippet.test.DateTimeTest -c snippet.test.ResourceTest",
       "vmArgs": ""
     }
   ]
