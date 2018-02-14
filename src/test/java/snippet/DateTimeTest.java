@@ -1,4 +1,4 @@
-package snippet.test;
+package snippet;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -1,4 +1,4 @@
-package junit5.test;
+package junit5;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;

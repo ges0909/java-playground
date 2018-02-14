@@ -1,4 +1,4 @@
-package junit5.test;
+package junit5;
 
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;

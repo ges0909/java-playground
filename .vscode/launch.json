@@ -11,7 +11,7 @@
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "--select-package junit5.test",
+      "args": "--select-package junit5",
       "stopOnEntry": false
     },
     {
@@ -21,8 +21,18 @@
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "--select-package snippet.test",
+      "args": "--select-package snippet",
       "stopOnEntry": false
-    }
+    },
+    {
+      "type": "java",
+      "name": "JAX-RS 2.1 Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package jax_rs_21",
+      "stopOnEntry": false
+    },
   ]
 }
