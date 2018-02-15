@@ -40,8 +40,9 @@ dependencies {
     testCompile group: 'org.glassfish.jersey.media',  name: 'jersey-media-json-jackson', version: '2.26'
 
     // Vert.x
-    testCompile group: 'io.vertx', name: 'vertx-core', version: '3.5.1'
-    testCompile group: 'io.vertx', name: 'vertx-unit', version: '3.5.1'
+    testCompile group: 'io.vertx', name: 'vertx-core',   version: '3.5.1'
+ // testCompile group: 'io.vertx', name: 'vertx-unit',   version: '3.5.1'
+    testCompile group: 'io.vertx', name: 'vertx-junit5', version: '3.5.1'
 
     // Lombok
 //  testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
