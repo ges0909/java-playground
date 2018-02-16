@@ -17,12 +17,32 @@
     },
     {
       "type": "java",
-      "name": "Snippet Tests",
+      "name": "Enum Tests",
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "--select-package snippet",
+      "args": "--select-package enums",
+      "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "Resource Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package resource",
+      "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "DateTime Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package datetime",
       "stopOnEntry": false
     },
     {
@@ -32,7 +52,7 @@
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "--select-package jax_rs_21",
+      "args": "--select-package jaxrs_21",
       "stopOnEntry": false
     },
     {

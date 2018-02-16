@@ -1,4 +1,4 @@
-package jax_rs_21;
+package jaxrs_21;
 
 class Post {
   public Post() {
