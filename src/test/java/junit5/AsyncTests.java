@@ -1,27 +1,27 @@
 package junit5;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-
-import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
-
-@RunWith(VertxUnitRunner.class)
 class AsyncTests {
   private final WebTarget target = ClientBuilder.newClient().target("http://jsonplaceholder.typicode.com");
 
   @Test
-  void testAsync(TestContext context) throws InterruptedException, ExecutionException {
+  void testAsync() throws TimeoutException, InterruptedException, ExecutionException {
     Future<Response> future = target.path("/posts/1").request().async().get();
-    Response resp = future.get();
-    context.assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
-    context.assertEquals(Response.Status.OK.getReasonPhrase(), resp.getStatusInfo().getReasonPhrase());
+    Response response = future.get(1, TimeUnit.SECONDS);
+    assertNotNull(response);
+    assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    assertEquals(Response.Status.OK.getReasonPhrase(), response.getStatusInfo().getReasonPhrase());
   }
 }

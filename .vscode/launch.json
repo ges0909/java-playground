@@ -63,6 +63,16 @@
       "console": "internalConsole",
       "mainClass": "vertx.VertxMain",
       "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "Optional Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package optional",
+      "stopOnEntry": false
     }
   ]
 }
