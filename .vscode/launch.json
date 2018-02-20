@@ -73,6 +73,16 @@
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
       "args": "--select-package optional",
       "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "Stream Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package stream",
+      "stopOnEntry": false
     }
   ]
 }
