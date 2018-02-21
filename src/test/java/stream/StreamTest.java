@@ -40,6 +40,9 @@ class StreamTest {
     assertTrue(Arrays.equals(new Long[] { 4L, 92L, 100L }, result));
   }
 
+  /**
+   *  Takes a List of Long's and converts it to an array of scalar long's.
+   */
   @Test
   void reduceListToArray2() {
     long[] result = list.stream().mapToLong(l -> l).toArray(); // argument to 'mapToLong' is a ToLongFunction, which has a 'long' as result type
