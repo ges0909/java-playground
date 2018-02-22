@@ -44,7 +44,7 @@ dependencies {
     testCompile group: 'io.vertx', name: 'vertx-unit',   version: '3.5.1'
 
     // Lombok
-//  testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
 }
 
 sourceSets {
