@@ -76,12 +76,28 @@ class OptionalTests {
   void ifPresent() {
     String v = "any";
     Optional<String> value = Optional.of(v);
-    value.ifPresent(v2 -> assertEquals(v, v2)); // ifPresent = conditional action
+    value.ifPresent(s -> assertEquals(s, v)); // conditional action
+  }
+
+  @Test 
+  void ifPresentOrElse() {
+    String v = "any";
+    Optional<String> value = Optional.of(v);
+    value.ifPresentOrElse(s -> assertEquals(s, v), () -> System.out.println("not found")); // Java 9
   }
 
   @Test
   void filter() {
+    int number = 1;
+    Optional<Integer> value = Optional.of(number).filter(n -> n == 1);
+    assertTrue(value.isPresent());
+  }
 
+  @Test
+  void filter_2() {
+    int number = 1;
+    Optional<Integer> value = Optional.of(number).filter(n -> n == 2);
+    assertFalse(value.isPresent()); // empty
   }
 
   @Test
@@ -91,6 +107,16 @@ class OptionalTests {
 
   @Test
   void flatMap() {
+
+  }
+
+  @Test
+  void stream() { // Java 9
+
+  }
+
+  @Test
+  void or() {  // Java 9
 
   }
 }

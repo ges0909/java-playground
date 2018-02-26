@@ -1,8 +1,7 @@
 package lombok;
 
-@Setter
 class Person {
-  private String first;
+  @Getter private String first;
   private String last;
-  private String age;
+  @Setter private int age;
 }
