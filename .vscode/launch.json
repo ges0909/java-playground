@@ -5,6 +5,7 @@
 
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "java",
       "name": "JUnit5 Tests",
@@ -82,6 +83,15 @@
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
       "args": "--select-package stream",
+      "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "Lombok Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "lombok.Main",
       "stopOnEntry": false
     }
   ]

@@ -79,7 +79,7 @@ class OptionalTests {
     value.ifPresent(s -> assertEquals(s, v)); // conditional action
   }
 
-  @Test 
+  @Test
   void ifPresentOrElse() {
     String v = "any";
     Optional<String> value = Optional.of(v);
@@ -116,7 +116,6 @@ class OptionalTests {
   }
 
   @Test
-  void or() {  // Java 9
-
+  void or() { // Java 9
   }
 }
