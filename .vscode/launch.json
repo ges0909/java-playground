@@ -28,6 +28,16 @@
     },
     {
       "type": "java",
+      "name": "String Tests",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "org.junit.platform.console.ConsoleLauncher",
+      "args": "--select-package string",
+      "stopOnEntry": false
+    },
+    {
+      "type": "java",
       "name": "Resource Tests",
       "request": "launch",
       "cwd": "${workspaceFolder}",
