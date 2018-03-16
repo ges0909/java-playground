@@ -1,8 +1,12 @@
 package enums;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class EnumTests {
 	enum Medium {
@@ -22,7 +26,18 @@ class EnumTests {
 	}
 
 	@Test
-	void valueOf() {
+	void valueOfString() {
 		assertEquals(Medium.ENERGY, Medium.valueOf("ENERGY"));
+	}
+
+	@Test
+	void valueOfOrdinal() {
+		assertEquals(Medium.ENERGY, Medium.values()[0]);
+	}
+
+	@Test
+	void arrayIndexOutOfBoundsException() {
+		Executable executableToTest = () -> { Medium m = Medium.values()[9961]; };
+		assertThrows(ArrayIndexOutOfBoundsException.class, executableToTest);
 	}
 }
