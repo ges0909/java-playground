@@ -132,7 +132,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.withDayOfYear(1);
 		LocalDate endDate = NOW;
 		assertEquals("01/01/2018", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("2 // Last year")
@@ -149,8 +149,8 @@ public class DateTimeTest {
 	void last12Months() {
 		LocalDate startDate = NOW.minusMonths(12);
 		LocalDate endDate = NOW;
-		assertEquals("15/03/2017", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2017", startDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("4 // Last 3 years")
@@ -168,7 +168,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.withDayOfMonth(1);
 		LocalDate endDate = NOW;
 		assertEquals("01/03/2018", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("6 // Last month")
@@ -186,7 +186,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusDays(15);
 		LocalDate endDate = NOW;
 		assertEquals("28/02/2018", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("8 // Current + last year")
@@ -195,7 +195,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusYears(1).withDayOfYear(1);
 		LocalDate endDate = NOW;
 		assertEquals("01/01/2017", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("9 // Current + last 11 months")
@@ -204,7 +204,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusMonths(11);
 		LocalDate endDate = NOW;
 		assertEquals("15/04/2017", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("10 // Current + last 3 years")
@@ -213,7 +213,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusYears(3).withDayOfYear(1);
 		LocalDate endDate = NOW;
 		assertEquals("01/01/2015", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("11 // Current + last month")
@@ -222,7 +222,7 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusMonths(1).withDayOfMonth(1);
 		LocalDate endDate = NOW;
 		assertEquals("01/02/2018", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
 	@DisplayName("12 // Current + last 15 days")
@@ -231,6 +231,15 @@ public class DateTimeTest {
 		LocalDate startDate = NOW.minusDays(15);
 		LocalDate endDate = NOW;
 		assertEquals("28/02/2018", startDate.format(FORMAT));
-		assertEquals("15/03/2018", endDate.format(FORMAT));
+		assertEquals("23/03/2018", endDate.format(FORMAT));
+	}
+
+	@Test
+	void testABC() {
+		LocalDateTime startOfDay = NOW.minusDays(1).atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusHours(23).plusMinutes(59).plusSeconds(59);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+		assertEquals("22.03.2018 00:00:00", startOfDay.format(formatter));
+		assertEquals("22.03.2018 23:59:59", endOfDay.format(formatter));
 	}
 }
