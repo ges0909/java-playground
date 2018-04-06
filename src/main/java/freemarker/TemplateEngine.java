@@ -12,10 +12,10 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.Version;
 
-public class MailTemplateEngine {
-	Configuration configuration = new Configuration();
+public class TemplateEngine {
+	static Configuration configuration = new Configuration();
 
-	public MailTemplateEngine() {
+	public TemplateEngine() {
 		configuration.setClassForTemplateLoading(getClass(), "/ftl");
 		configuration.setObjectWrapper(new DefaultObjectWrapper());
 		configuration.setDefaultEncoding("UTF-8");
@@ -23,9 +23,9 @@ public class MailTemplateEngine {
 		configuration.setIncompatibleImprovements(new Version(2, 3, 20));
 	}
 
-	public Optional<String> process(String templateName, Object model, Locale locale) {
+	public Optional<String> process(TemplateType mailTemplate, Object model, Locale locale) {
 		try {
-			Template template = configuration.getTemplate(templateName, locale);
+			Template template = configuration.getTemplate(mailTemplate.value(), locale);
 			StringWriter writer = new StringWriter();
 			template.process(model, writer);
 			return Optional.of(writer.toString());
