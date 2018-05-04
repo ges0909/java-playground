@@ -183,8 +183,9 @@ public class DateTimeTest {
 	@DisplayName("7 // Last 15 days")
 	@Test
 	void last15Days() {
-		LocalDate startDate = NOW.minusDays(15);
-		LocalDate endDate = NOW;
+		LocalDate yesterday = NOW.minusDays(1);
+		LocalDate startDate = yesterday.minusDays(15);
+		LocalDate endDate = yesterday;
 		assertEquals("28/02/2018", startDate.format(FORMAT));
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
@@ -228,7 +229,7 @@ public class DateTimeTest {
 	@DisplayName("12 // Current + last 15 days")
 	@Test
 	void currentAndLAst15Days() {
-		LocalDate startDate = NOW.minusDays(15);
+		LocalDate startDate = NOW.minusDays(1L + 5);
 		LocalDate endDate = NOW;
 		assertEquals("28/02/2018", startDate.format(FORMAT));
 		assertEquals("23/03/2018", endDate.format(FORMAT));
