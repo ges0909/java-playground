@@ -87,12 +87,12 @@
     },
     {
       "type": "java",
-      "name": "Stream Tests",
+      "name": "Streams Tests",
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "mainClass": "org.junit.platform.console.ConsoleLauncher",
-      "args": "--select-package stream",
+      "args": "--select-package streams",
       "stopOnEntry": false
     },
     {

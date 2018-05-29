@@ -18,22 +18,22 @@ import org.junit.jupiter.api.Test;
 public class DateTimeTest {
 
 	final static LocalDate NOW = LocalDate.now();
-	final static DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // don't use YYYY which is "week of years"
+	final static DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // don't use YYYY which is "week of
+																																											// years"
 
 	/*
 	 * Manipulate LocalDateTime.
 	 */
 	@Test
-	void addDays() {
-		LocalDateTime today = LocalDateTime.now();
-		LocalDateTime tomorrow = today.plusDays(1);
-		/*Date d =*/ Date.from(tomorrow.atZone(ZoneId.systemDefault()).toInstant()); // convert to 'Date'
+	void addDayAndConvertLocalDateTime2Date() {
+		LocalDateTime tomorrow = NOW.plusDays(1).atTime(12, 0, 0);
+		/* Date d = */ Date.from(tomorrow.atZone(ZoneId.systemDefault()).toInstant()); // convert to 'Date'
 	}
 
 	@Test
-	void addHoursAndMinutes() {
+	void subtractHoursAndMinutes() {
 		LocalDateTime today = LocalDateTime.now();
-		LocalDateTime later = today.minusHours(5).minusMinutes(30);
+		/* LocalDateTime later = */ today.minusHours(5).minusMinutes(30);
 	}
 
 	@Test
@@ -122,8 +122,16 @@ public class DateTimeTest {
 		assertEquals(28, dayOfMonth);
 	}
 
+	@Test
+	void testStartAndEndOfDay() {
+		LocalDateTime startOfDay = NOW.minusDays(1).atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.with(LocalTime.MAX);
+		assertEquals("2018-05-28T00:00", startOfDay.toString());
+		assertEquals("2018-05-28T23:59:59.999999999", endOfDay.toString());
+	}
+
 	/**
-	 * Calculations with time periods. 
+	 * Calculations with time periods.
 	 */
 
 	@DisplayName("1 // Current year")
@@ -233,14 +241,5 @@ public class DateTimeTest {
 		LocalDate endDate = NOW;
 		assertEquals("28/02/2018", startDate.format(FORMAT));
 		assertEquals("23/03/2018", endDate.format(FORMAT));
-	}
-
-	@Test
-	void testABC() {
-		LocalDateTime startOfDay = NOW.minusDays(1).atStartOfDay();
-		LocalDateTime endOfDay = startOfDay.plusHours(23).plusMinutes(59).plusSeconds(59);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-		assertEquals("22.03.2018 00:00:00", startOfDay.format(formatter));
-		assertEquals("22.03.2018 23:59:59", endOfDay.format(formatter));
 	}
 }

@@ -1,0 +1,28 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "java-snippets",
+                "projectName": "java-snippets",
+                "workingDirectory": "c:\\Users\\schrager.INFINIT\\Projekte\\java-snippets",
+                "args": [],
+                "vmargs": [],
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "java-snippets",
+                "projectName": "java-snippets",
+                "workingDirectory": "c:\\Users\\schrager.INFINIT\\Projekte\\java-snippets",
+                "args": [],
+                "vmargs": [],
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
