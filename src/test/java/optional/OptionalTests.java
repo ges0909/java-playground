@@ -83,7 +83,7 @@ class OptionalTests {
   void ifPresentOrElse() {
     String v = "any";
     Optional<String> value = Optional.of(v);
-//    value.ifPresentOrElse(s -> System.out.println("found: " + s), () -> System.out.println("not found"));
+    value.ifPresentOrElse(s -> System.out.println("found: " + s), () -> System.out.println("not found"));
   }
 
   @Test
@@ -96,7 +96,7 @@ class OptionalTests {
   @Test
   void filter_2() {
     int number = 1;
-    Optional<Integer> value = Optional.of(number).filter(n -> n == 2 /*false => Optional.empty()*/);
+    Optional<Integer> value = Optional.of(number).filter(n -> n == 2 /* false => Optional.empty() */);
     assertFalse(value.isPresent());
   }
 

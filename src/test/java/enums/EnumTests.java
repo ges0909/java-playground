@@ -33,6 +33,7 @@ class EnumTests {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	void arrayIndexOutOfBoundsException() {
 		assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
 			Medium m = Medium.values()[9961];

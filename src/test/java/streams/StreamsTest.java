@@ -16,6 +16,13 @@ import lombok.Data;
 
 class StreamsTest {
 
+  @Data
+  @AllArgsConstructor
+  class Pair {
+    int id;
+    String name;
+  }
+
   // Reduces a list of integers to a comma-separated string.
   @Test
   void reduceListToString() {
@@ -42,29 +49,18 @@ class StreamsTest {
 
   @Test
   void groupingBy() {
-    @Data
-    @AllArgsConstructor
-    class Pair {
-      int id;
-      String name;
-    }
     List<Pair> pairs = List.of(new Pair(2, "B"), new Pair(1, "A"), new Pair(3, "C"), new Pair(1, "AA"),
         new Pair(2, "BB"));
     Map<Integer, List<Pair>> groupedByPairs = pairs.stream().collect(Collectors.groupingBy(Pair::getId));
     assertEquals(groupedByPairs.toString(),
-        "{1=[Pair(id=1, name=A), Pair(id=1, name=AA)], 2=[Pair(id=2, name=B), Pair(id=2, name=BB)], 3=[Pair(id=3, name=C)]}");
+        "{1=[StreamsTest.Pair(id=1, name=A), StreamsTest.Pair(id=1, name=AA)], 2=[StreamsTest.Pair(id=2, name=B), StreamsTest.Pair(id=2, name=BB)], 3=[StreamsTest.Pair(id=3, name=C)]}");
   }
 
   @Test
   void sorted() {
-    @Data
-    @AllArgsConstructor
-    class Pair {
-      int id;
-      String name;
-    }
     List<Pair> pairs = List.of(new Pair(2, "B"), new Pair(1, "A"), new Pair(3, "C"));
     List<Pair> sortedPairs = pairs.stream().sorted(Comparator.comparing(Pair::getId)).collect(Collectors.toList());
-    assertEquals(sortedPairs.toString(), "[Pair(id=1, name=A), Pair(id=2, name=B), Pair(id=3, name=C)]");
+    assertEquals(sortedPairs.toString(),
+        "[StreamsTest.Pair(id=1, name=A), StreamsTest.Pair(id=2, name=B), StreamsTest.Pair(id=3, name=C)]");
   }
 }

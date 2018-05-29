@@ -21,6 +21,7 @@ public class AssumptionTests {
 		assumeTrue("linux".equals(os));
 	}
 
+	@SuppressWarnings("null")
 	@DisplayName("assumingThat")
 	@Test
 	void testAssumingThat() {

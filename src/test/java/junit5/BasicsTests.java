@@ -120,8 +120,8 @@ class BasicsTests {
 			log.finest("AssertTests // @AfterEach");
 		}
 
-		@DisplayName("assertAll: grouping of assertions")
 		@Test
+		@DisplayName("assertAll: grouping of assertions")
 		/**
 		 * Shows the the usage of <code>assertAll</code>.
 		 * 
@@ -135,14 +135,15 @@ class BasicsTests {
 					() -> assertTrue("simple".equals(actual)));
 		}
 
-		@DisplayName("assertTrue: with lambda")
 		@Test
+		@DisplayName("assertTrue: with lambda")
 		void testAssertWithLambda() {
 			assertTrue(Stream.of(1, 2, 3).mapToInt(i -> i).sum() > 5, () -> "sum should be greater than 5");
 		}
 
-		@DisplayName("assertThrows: expected exceptions")
 		@Test
+		@DisplayName("assertThrows: expected exceptions")
+		@SuppressWarnings("null")
 		void testAssertThrows() {
 			String s = null;
 			assertThrows(NullPointerException.class, () -> s.length(), "NPE caught"); // provoke NPE
