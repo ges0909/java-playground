@@ -3,6 +3,7 @@ package datetime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -130,12 +131,29 @@ public class DateTimeTest {
 		assertEquals("2018-05-28T23:59:59.999999999", endOfDay.toString());
 	}
 
+	@Test
+	void testGetMonthOfDate() {
+		LocalDateTime dateTime = LocalDate.of(2018, Month.FEBRUARY, 22).atStartOfDay();
+		Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+		long timestamp = instant.toEpochMilli();
+		// convert epoch time to local date/time
+		Instant instant2 = Instant.ofEpochMilli(timestamp);
+		LocalDateTime dateTime2 = instant2.atZone(ZoneId.systemDefault()).toLocalDateTime();
+		// day
+		assertEquals(31 + 22, dateTime2.getDayOfYear());
+		// month
+		assertEquals(Month.FEBRUARY, dateTime2.getMonth());
+		assertEquals(1, dateTime2.getMonth().ordinal());
+		// year
+		assertEquals(2018, dateTime2.getYear());
+	}
+
 	/**
 	 * Calculations with time periods.
 	 */
 
-	@DisplayName("1 // Current year")
 	@Test
+	@DisplayName("1 // Current year")
 	void currentYear() {
 		LocalDate startDate = NOW.withDayOfYear(1);
 		LocalDate endDate = NOW;
@@ -143,8 +161,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("2 // Last year")
 	@Test
+	@DisplayName("2 // Last year")
 	void lastYear() {
 		LocalDate startDate = NOW.minusYears(1).withDayOfYear(1);
 		LocalDate endDate = NOW.minusYears(1).withDayOfYear(365);
@@ -152,8 +170,8 @@ public class DateTimeTest {
 		assertEquals("31/12/2017", endDate.format(FORMAT));
 	}
 
-	@DisplayName("3 // Last 12 months")
 	@Test
+	@DisplayName("3 // Last 12 months")
 	void last12Months() {
 		LocalDate startDate = NOW.minusMonths(12);
 		LocalDate endDate = NOW;
@@ -161,8 +179,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("4 // Last 3 years")
 	@Test
+	@DisplayName("4 // Last 3 years")
 	void last3Years() {
 		LocalDate startDate = NOW.minusYears(3).withDayOfYear(1);
 		LocalDate endDate = NOW.minusYears(1).withDayOfYear(365);
@@ -179,8 +197,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("6 // Last month")
 	@Test
+	@DisplayName("6 // Last month")
 	void lastMonth() {
 		LocalDate startDate = NOW.minusMonths(1).withDayOfMonth(1);
 		LocalDate endDate = NOW.minusMonths(1).withDayOfMonth(28);
@@ -188,8 +206,8 @@ public class DateTimeTest {
 		assertEquals("28/02/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("7 // Last 15 days")
 	@Test
+	@DisplayName("7 // Last 15 days")
 	void last15Days() {
 		LocalDate yesterday = NOW.minusDays(1);
 		LocalDate startDate = yesterday.minusDays(15);
@@ -198,8 +216,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("8 // Current + last year")
 	@Test
+	@DisplayName("8 // Current + last year")
 	void currentAndLastYear() {
 		LocalDate startDate = NOW.minusYears(1).withDayOfYear(1);
 		LocalDate endDate = NOW;
@@ -207,8 +225,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("9 // Current + last 11 months")
 	@Test
+	@DisplayName("9 // Current + last 11 months")
 	void currentAndLast11Months() {
 		LocalDate startDate = NOW.minusMonths(11);
 		LocalDate endDate = NOW;
@@ -216,8 +234,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("10 // Current + last 3 years")
 	@Test
+	@DisplayName("10 // Current + last 3 years")
 	void currentAndLast3Years() {
 		LocalDate startDate = NOW.minusYears(3).withDayOfYear(1);
 		LocalDate endDate = NOW;
@@ -225,8 +243,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("11 // Current + last month")
 	@Test
+	@DisplayName("11 // Current + last month")
 	void currentAndLast() {
 		LocalDate startDate = NOW.minusMonths(1).withDayOfMonth(1);
 		LocalDate endDate = NOW;
@@ -234,8 +252,8 @@ public class DateTimeTest {
 		assertEquals("23/03/2018", endDate.format(FORMAT));
 	}
 
-	@DisplayName("12 // Current + last 15 days")
 	@Test
+	@DisplayName("12 // Current + last 15 days")
 	void currentAndLAst15Days() {
 		LocalDate startDate = NOW.minusDays(1L + 5);
 		LocalDate endDate = NOW;

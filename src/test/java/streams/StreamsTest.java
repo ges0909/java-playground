@@ -3,6 +3,7 @@ package streams;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 class StreamsTest {
-
   @Data
   @AllArgsConstructor
   class Pair {
@@ -62,5 +62,17 @@ class StreamsTest {
     List<Pair> sortedPairs = pairs.stream().sorted(Comparator.comparing(Pair::getId)).collect(Collectors.toList());
     assertEquals(sortedPairs.toString(),
         "[StreamsTest.Pair(id=1, name=A), StreamsTest.Pair(id=2, name=B), StreamsTest.Pair(id=3, name=C)]");
+  }
+
+  @Test
+  void accummulate() {
+    List<Integer> list = List.of(1, 2, 3, 4, 5);
+    List<Long> accuList = new ArrayList<>();
+    long accu = 0;
+    for (Integer i : list) {
+      accu = accu + i;
+      accuList.add(accu);
+    }
+    System.out.println(accuList.toString());
   }
 }
