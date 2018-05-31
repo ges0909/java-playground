@@ -3,11 +3,19 @@ package streams;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +29,13 @@ class StreamsTest {
   class Pair {
     int id;
     String name;
+  }
+
+  @Data
+  @AllArgsConstructor
+  class Point {
+    long timestamp;
+    double value;
   }
 
   // Reduces a list of integers to a comma-separated string.
@@ -75,4 +90,39 @@ class StreamsTest {
     }
     System.out.println(accuList.toString());
   }
+
+  /**
+   * Returns the number of the month ranging from 0..11.
+   */
+  private int month(Point point) {
+    Instant instant = Instant.ofEpochMilli(point.timestamp);
+    LocalDateTime dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return dateTime.getMonth().ordinal();
+  }
+
+  @Test
+  void average() {
+    long jan16 = LocalDate.of(2016, Month.JANUARY, 31).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+    long jan17 = LocalDate.of(2017, Month.JANUARY, 31).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+    long jan18 = LocalDate.of(2018, Month.JANUARY, 31).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+    long feb16 = LocalDate.of(2016, Month.FEBRUARY, 29).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+    long feb17 = LocalDate.of(2017, Month.FEBRUARY, 28).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+    long feb18 = LocalDate.of(2018, Month.FEBRUARY, 28).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
+        .toEpochMilli();
+
+    Point[] _points = { new Point(jan16, 1.0), new Point(feb16, 2.0), new Point(jan17, 3.0), new Point(feb17, 4.0),
+        new Point(jan18, 5.0), new Point(feb18, 6.0) };
+    List<Point> points = Arrays.asList(_points);
+
+    Map<Integer, Double> avgMap = new HashMap<>();
+    Map<Integer, List<Point>> sortedByMonth = points.stream().collect(Collectors.groupingBy(this::month));
+    for (Entry<Integer, List<Point>> entry : sortedByMonth.entrySet()) {
+      double avg = entry.getValue().stream().mapToDouble(Point::getValue).average().getAsDouble();
+      avgMap.put(entry.getKey(), avg);
+    }
 }

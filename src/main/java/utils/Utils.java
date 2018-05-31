@@ -1,4 +1,4 @@
-package string;
+package utils;
 
 class Utils {
   public static String camelToUpperAndUnderscore(String camel) {
