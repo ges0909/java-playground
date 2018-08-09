@@ -102,17 +102,14 @@ class OptionalTests {
 
   @Test
   void map() {
-
   }
 
   @Test
   void flatMap() {
-
   }
 
   @Test
   void stream() { // Java 9
-
   }
 
   @Test
