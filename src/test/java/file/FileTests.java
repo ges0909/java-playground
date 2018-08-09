@@ -21,7 +21,6 @@ class FileTests {
 
       List<String> list = stream.filter(line -> !line.startsWith("Zeile 2")).map(String::toUpperCase)
           .collect(Collectors.toList());
-
     }
   }
 }

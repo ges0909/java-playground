@@ -20,22 +20,33 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 class StreamsTest {
-  @Data
-  @AllArgsConstructor
   class Pair {
     int id;
     String name;
+
+    Pair(int id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+
+    int getId() {
+      return this.id;
+    }
   }
 
-  @Data
-  @AllArgsConstructor
   class Point {
     long timestamp;
     double value;
+
+    Point(long timestamp, double value) {
+      this.timestamp = timestamp;
+      this.value = value;
+    }
+
+    double getValue() {
+      return this.value;
+    }
   }
 
   // Reduces a list of integers to a comma-separated string.
@@ -125,4 +136,5 @@ class StreamsTest {
       double avg = entry.getValue().stream().mapToDouble(Point::getValue).average().getAsDouble();
       avgMap.put(entry.getKey(), avg);
     }
+  }
 }

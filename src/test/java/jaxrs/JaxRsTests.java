@@ -1,4 +1,4 @@
-package jaxrs_21;
+package jaxrs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
