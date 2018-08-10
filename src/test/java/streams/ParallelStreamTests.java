@@ -18,7 +18,7 @@ class ParallelStreamTests {
   }
 
   @Test
-  public void testIntegerParallel() {
+  public void testIntegerParallelStream() {
     Integer[] integerArray = { 1, 1, 2, 2, 2, 3, 4, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 7, 7, 4, 5 };
     // @formatter:off
     List<Integer> samples = Stream.of(integerArray)
@@ -33,10 +33,9 @@ class ParallelStreamTests {
   }
 
   @Test
-  public void testLongParallel() {
-    Stream<Long> longStream = Stream.iterate(0L, l -> l + 1).limit(1_000_000);
+  public void testLongParallelStream() {
     // @formatter:off
-    List<Long> samples = longStream
+    List<Long> samples = Stream.iterate(0L, l -> l + 1).limit(1_000_000)
       .parallel()
       .collect(Collectors.groupingByConcurrent(Long::longValue))
       .entrySet()
