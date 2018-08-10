@@ -42,7 +42,7 @@ public class JaxRsTests {
   @Nested
   class AsyncTests {
     @Test
-    void testAsync() throws InterruptedException, ExecutionException, TimeoutException {
+    void testAsync() throws ExecutionException, TimeoutException, InterruptedException {
       Future<Response> future = target.path("/posts/1").request().async().get();
       Response response = future.get(1, TimeUnit.SECONDS);
       assertNotNull(response);
@@ -51,7 +51,7 @@ public class JaxRsTests {
     }
 
     @Test
-    void testAsync2() throws InterruptedException, ExecutionException, TimeoutException {
+    void testAsync2() throws ExecutionException, TimeoutException, InterruptedException {
       InvocationCallback<Post> callback = new InvocationCallback<Post>() {
         @Override
         public void completed(Post post) {

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 public class WatchServiceTest {
 
-  WatchService ws;
+  WatchServiceDemo ws;
 
   @BeforeEach
   void setUp() {
-    ws = new WatchService();
+    ws = new WatchServiceDemo();
   }
 
   @Test

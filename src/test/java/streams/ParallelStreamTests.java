@@ -29,7 +29,7 @@ class ParallelStreamTests {
       .map(this::sumInt)
       .collect(Collectors.toList());
     // @formatter:on
-    samples.forEach(s -> System.out.println(s));
+    // samples.forEach(s -> System.out.println(s));
   }
 
   @Test
@@ -43,6 +43,6 @@ class ParallelStreamTests {
       .map(this::sumLong)
       .collect(Collectors.toList());
     // @formatter:on
-    samples.forEach(s -> System.out.println(s));
+    // samples.forEach(s -> System.out.println(s));
   }
 }

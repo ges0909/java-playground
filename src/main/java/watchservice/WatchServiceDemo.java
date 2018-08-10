@@ -14,7 +14,7 @@ import java.nio.file.WatchService;
 import java.nio.file.Watchable;
 import java.util.logging.Logger;
 
-public class WatchService {
+public class WatchServiceDemo {
 
     private static final Path PATH = Paths.get("./data");
     private static final Logger log = Logger.getLogger(WatchServiceDemo.class.getName());
