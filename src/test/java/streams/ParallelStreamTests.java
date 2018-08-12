@@ -1,6 +1,7 @@
 package streams;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,8 +9,8 @@ import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -56,9 +57,9 @@ class ParallelStreamTests {
 
   @Test
   public void testFileStream() throws URISyntaxException, IOException {
-    Path file = Paths.get(getClass().getClassLoader().getResource("streams/test-100_000.log").toURI());
-    try (Stream<String> lines = Files.lines(file)) {
-      List<Entry<Long, Integer>> samples = lines
+    Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-100_000.log").toURI());
+    try (Stream<String> lines = Files.lines(in)) {
+      lines
       // @formatter:off
         .parallel()
         .map(LogEntry::new)
@@ -69,9 +70,39 @@ class ParallelStreamTests {
         .stream()
         .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // <= Map.Entry<Long, Integer>
         .sorted(Map.Entry.comparingByKey())
-        .collect(Collectors.toList()); // Map.Entry::getKey, Map.Entry::getValue
+        .collect(Collectors.toList())
+        .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
       // @formatter:on
-      samples.forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
+    }
+  }
+
+  @Test
+  public void testWriteStreamToFile() throws IOException {
+    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
+      IntStream.range(0, 99).mapToObj(String::valueOf).forEach(pw::println);
+    }
+  }
+
+  @Test
+  public void testConsolidate() throws URISyntaxException, IOException {
+    Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
+    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
+      lines
+      // @formatter:off
+        .parallel()
+        .map(LogEntry::new)
+        .filter(LogEntry::isValid)
+        .filter(LogEntry::isError)
+        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
+        .entrySet()
+        .stream()
+        .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // => Map.Entry<Long, Integer>
+        .sorted(Map.Entry.comparingByKey())
+        .collect(Collectors.toList())
+        .forEach(e ->pw.println(e.getKey() + " " + e.getValue()));
+      // @formatter:on
     }
   }
 }

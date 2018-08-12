@@ -19,16 +19,12 @@ class LogEntry {
     return this.timestamp;
   }
 
-  public String getLevel() {
-    return this.level;
+  public boolean isError() {
+    return this.level.equals("error");
   }
 
   public boolean isValid() {
     return this.isValid;
-  }
-
-  public boolean isError() {
-    return this.level.equals("error");
   }
 
   public LogEntry(String line) {
