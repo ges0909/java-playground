@@ -9,3 +9,5 @@ bin/
 build/
 gradle/
 .sts4-cache/
+src/test/resources/streams/test-100_000.log
+src/test/resources/streams/test-1_000_000.log

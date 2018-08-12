@@ -11,8 +11,8 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	// jcenter()
@@ -35,9 +35,9 @@ dependencies {
  
     // JAX-RS
     testCompile group: 'javax.ws.rs',                 name: 'javax.ws.rs-api',           version: '2.1'
-    testCompile group: 'org.glassfish.jersey.core',   name: 'jersey-client',             version: '2.26'
-    testCompile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2',                version: '2.26'
-    testCompile group: 'org.glassfish.jersey.media',  name: 'jersey-media-json-jackson', version: '2.26'
+    testCompile group: 'org.glassfish.jersey.core',   name: 'jersey-client',             version: '2.27'
+    testCompile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2',                version: '2.27'
+    testCompile group: 'org.glassfish.jersey.media',  name: 'jersey-media-json-jackson', version: '2.2'
 
     // vert.x
     compile     group: 'io.vertx', name: 'vertx-core',   version: '3.5.1'

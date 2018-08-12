@@ -83,7 +83,7 @@ class OptionalTests {
   void ifPresentOrElse() {
     String v = "any";
     Optional<String> value = Optional.of(v);
-    value.ifPresentOrElse(s -> System.out.println("found: " + s), () -> System.out.println("not found"));
+    // value.ifPresentOrElse(s -> System.out.println("found: " + s), () -> System.out.println("not found"));
   }
 
   @Test
