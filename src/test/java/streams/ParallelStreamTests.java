@@ -65,10 +65,30 @@ class ParallelStreamTests {
         .map(LogEntry::new)
         .filter(LogEntry::isValid)
         .filter(LogEntry::isError)
-        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp))// groups log entries by timestamp
-        .entrySet() // <= Map<Long, List<LogEntry>>
+        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
+        .entrySet()
         .stream()
         .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // <= Map.Entry<Long, Integer>
+        .sorted(Map.Entry.comparingByKey())
+        .collect(Collectors.toList())
+        .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
+      // @formatter:on
+    }
+  }
+
+  @Test
+  public void testFileStreamModified() throws URISyntaxException, IOException {
+    Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
+    try (Stream<String> lines = Files.lines(in)) {
+      lines
+      // @formatter:off
+        .parallel()
+        .map(LogEntry::new)
+        .filter(LogEntry::isValid)
+        .filter(LogEntry::isError)
+        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp, Collectors.counting())) // =>  Map<Long, Integer>
+        .entrySet()
+        .stream()
         .sorted(Map.Entry.comparingByKey())
         .collect(Collectors.toList())
         .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
@@ -95,13 +115,13 @@ class ParallelStreamTests {
         .map(LogEntry::new)
         .filter(LogEntry::isValid)
         .filter(LogEntry::isError)
-        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
+        // group entries  by timestamp (Map<Long, List<LogEnry>) and count values (Map<Long, Integer>)
+        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp, Collectors.counting()))
         .entrySet()
         .stream()
-        .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // => Map.Entry<Long, Integer>
         .sorted(Map.Entry.comparingByKey())
         .collect(Collectors.toList())
-        .forEach(e ->pw.println(e.getKey() + " " + e.getValue()));
+        .forEach(e -> pw.println(e.getKey() + " " + e.getValue()));
       // @formatter:on
     }
   }
