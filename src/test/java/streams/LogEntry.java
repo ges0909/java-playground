@@ -6,26 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class LogEntry {
+class LogEntry extends Entry {
 
   static String regex = "\\[(.*)]\\s\\[(.*):(.*)]\\s\\[(.*)]\\s\\[(.*)]\\s(.+)";
   static Pattern pattern = Pattern.compile(regex);
-
-  long timestamp;
-  String level;
-  boolean isValid = false;
-
-  public long getTimestamp() {
-    return this.timestamp;
-  }
-
-  public boolean isError() {
-    return this.level.equals("error");
-  }
-
-  public boolean isValid() {
-    return this.isValid;
-  }
 
   public LogEntry(String line) {
     Matcher matches = pattern.matcher(line);
@@ -34,7 +18,10 @@ class LogEntry {
       this.timestamp = LocalDateTime.parse(group1, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
           .atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
       this.level = matches.group(3);
-      this.isValid = true;
     }
+  }
+
+  public boolean isError() {
+    return this.level.equals("error");
   }
 }

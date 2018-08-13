@@ -10,6 +10,7 @@ import java.util.AbstractMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -65,10 +66,11 @@ class ParallelStreamTests {
       lines
       // @formatter:off
         .parallel()
-        .map(LogEntry::new)
-        .filter(LogEntry::isValid)
-        .filter(LogEntry::isError)
-        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
+        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(Entry::isError)
+        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
         .entrySet()
         .stream()
         .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // <= Map.Entry<Long, Integer>
@@ -86,10 +88,11 @@ class ParallelStreamTests {
       lines
       // @formatter:off
         .parallel()
-        .map(LogEntry::new)
-        .filter(LogEntry::isValid)
-        .filter(LogEntry::isError)
-        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp, Collectors.counting())) // =>  Map<Long, Integer>
+        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(Entry::isError)
+        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting())) // =>  Map<Long, Integer>
         .entrySet()
         .stream()
         .sorted(Map.Entry.comparingByKey())
@@ -117,11 +120,12 @@ class ParallelStreamTests {
       lines
       // @formatter:off
         .parallel()
-        .map(LogEntry::new)
-        .filter(LogEntry::isValid)
-        .filter(LogEntry::isError)
+        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(Entry::isError)
         // group entries by timestamp (result. Map<Long, List<LogEnry>) and count values (result: Map<Long, Integer>)
-        .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp, Collectors.counting()))
+        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting()))
         .entrySet()
         .stream()
         .sorted(Map.Entry.comparingByKey())
@@ -144,14 +148,15 @@ class ParallelStreamTests {
       lines
       // @formatter:off
         .parallel()
-        .map(LogEntry::new)
-        .filter(LogEntry::isValid)
-        .filter(LogEntry::isError)
+        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(Entry::isError)
         // Group entries by timestamp:
         // (1) 'groupingBy' generates a Map<Long, List<LogEnry>
         // (2) 'Collectors.counting() generates a Map<Long, Long> by counting the entries in 'List<LogEnry>'
         // (3) 'LinkedHashMap::new' keeps the order to avoid subsequent sorting
-        .collect(Collectors.groupingBy(LogEntry::getTimestamp, LinkedHashMap::new, Collectors.counting()))
+        .collect(Collectors.groupingBy(Entry::getTimestamp, LinkedHashMap::new, Collectors.counting()))
         .forEach((k, v) -> pw.println(k + " " + v));
       // @formatter:on
     }
