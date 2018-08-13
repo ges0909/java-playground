@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.AbstractMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -122,6 +123,24 @@ class ParallelStreamTests {
         .sorted(Map.Entry.comparingByKey())
         .collect(Collectors.toList())
         .forEach(e -> pw.println(e.getKey() + " " + e.getValue()));
+      // @formatter:on
+    }
+  }
+
+  @Test
+  public void testConsolidateWithoutOrdering() throws URISyntaxException, IOException {
+    Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
+    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
+      Map<Long, List<LogEntry>> samples = lines
+      // @formatter:off
+        .parallel()
+        .map(LogEntry::new)
+        .filter(LogEntry::isValid)
+        .filter(LogEntry::isError)
+        // group entries  by timestamp (Map<Long, List<LogEnry>) and count values (Map<Long, Integer>)
+        .collect(Collectors.groupingBy(LogEntry::getTimestamp, LinkedHashMap::new, Collectors.toList()))
+        .forEach((k, v) -> pw.println(k + " " + v));
       // @formatter:on
     }
   }
