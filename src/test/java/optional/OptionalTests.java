@@ -80,10 +80,11 @@ class OptionalTests {
   }
 
   @Test
-  void ifPresentOrElse() {
+  void ifPresentOrElse() { // requires Java 9
     String v = "any";
-    Optional<String> value = Optional.of(v);
-    // value.ifPresentOrElse(s -> System.out.println("found: " + s), () -> System.out.println("not found"));
+    /* Optional<String> value = */ Optional.of(v);
+    // value.ifPresentOrElse(s -> System.out.println("found: " + s), () ->
+    // System.out.println("not found"));
   }
 
   @Test

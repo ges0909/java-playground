@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 
 class ParallelStreamTests {
 
+  private final String HOME = System.getenv("HOMEPATH");
+
   private Integer sumInt(Map.Entry<Integer, List<Integer>> entry) {
     return entry.getValue().stream().mapToInt(Integer::intValue).sum();
   }
@@ -99,7 +101,7 @@ class ParallelStreamTests {
 
   @Test
   public void testWriteStreamToFile() throws IOException {
-    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    Path out = Paths.get(HOME + "/Desktop/numbers.txt");
     try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
       IntStream.range(0, 99).mapToObj(String::valueOf).forEach(pw::println);
     }
@@ -107,8 +109,10 @@ class ParallelStreamTests {
 
   @Test
   public void testConsolidate() throws URISyntaxException, IOException {
+    long start = System.currentTimeMillis();
+    //
     Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
-    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    Path out = Paths.get(HOME + "/Desktop/numbers_sort.txt");
     try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
       lines
       // @formatter:off
@@ -116,7 +120,7 @@ class ParallelStreamTests {
         .map(LogEntry::new)
         .filter(LogEntry::isValid)
         .filter(LogEntry::isError)
-        // group entries  by timestamp (Map<Long, List<LogEnry>) and count values (Map<Long, Integer>)
+        // group entries by timestamp (result. Map<Long, List<LogEnry>) and count values (result: Map<Long, Integer>)
         .collect(Collectors.groupingByConcurrent(LogEntry::getTimestamp, Collectors.counting()))
         .entrySet()
         .stream()
@@ -125,23 +129,34 @@ class ParallelStreamTests {
         .forEach(e -> pw.println(e.getKey() + " " + e.getValue()));
       // @formatter:on
     }
+    //
+    long stop = System.currentTimeMillis();
+    System.out.println(stop - start + " ms");
   }
 
   @Test
   public void testConsolidateWithoutOrdering() throws URISyntaxException, IOException {
+    long start = System.currentTimeMillis();
+    //
     Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
-    Path out = Paths.get("C:\\Users\\Gerrit\\Desktop\\numbers.txt");
+    Path out = Paths.get(HOME + "/Desktop/numbers_par.txt");
     try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
-      Map<Long, List<LogEntry>> samples = lines
+      lines
       // @formatter:off
         .parallel()
         .map(LogEntry::new)
         .filter(LogEntry::isValid)
         .filter(LogEntry::isError)
-        // group entries  by timestamp (Map<Long, List<LogEnry>) and count values (Map<Long, Integer>)
-        .collect(Collectors.groupingBy(LogEntry::getTimestamp, LinkedHashMap::new, Collectors.toList()))
+        // Group entries by timestamp:
+        // (1) 'groupingBy' generates a Map<Long, List<LogEnry>
+        // (2) 'Collectors.counting() generates a Map<Long, Long> by counting the entries in 'List<LogEnry>'
+        // (3) 'LinkedHashMap::new' keeps the order to avoid subsequent sorting
+        .collect(Collectors.groupingBy(LogEntry::getTimestamp, LinkedHashMap::new, Collectors.counting()))
         .forEach((k, v) -> pw.println(k + " " + v));
       // @formatter:on
     }
+    //
+    long stop = System.currentTimeMillis();
+    System.out.println(stop - start + " ms");
   }
 }
