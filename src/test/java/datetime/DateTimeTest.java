@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 public class DateTimeTest {
 
 	final static LocalDate NOW = LocalDate.now();
-	final static DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // don't use YYYY which is "week of
-																																											// years"
-
+	// don't use YYYY which is "week of years"
+	final static DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	/*
 	 * Manipulate LocalDateTime.
 	 */

@@ -7,12 +7,14 @@ buildscript {
 	}
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.junit.platform.gradle.plugin'
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'net.ltgt.apt' version '0.18'
+}
 
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
+sourceCompatibility = 1.10
+targetCompatibility = 1.10
 
 repositories {
 	// jcenter()
@@ -44,13 +46,16 @@ dependencies {
     testCompile group: 'io.vertx', name: 'vertx-unit',   version: '3.5.1'
 
     // lombok
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    implementation 'org.projectlombok:lombok:1.16.20'
     
     // freemarker
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.20'
 }
 
 sourceSets {
-    main.java.srcDirs += 'src/java/resources/'
+    main.java.srcDirs += 'src/main/resources/'
     test.java.srcDirs += 'src/test/resources/'
 }
+
+defaultTasks 'clean', 'build'
