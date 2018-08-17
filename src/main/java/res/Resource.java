@@ -1,4 +1,4 @@
-package resource;
+package res;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
