@@ -1,39 +1,62 @@
 package math;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
-import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
 class SineTests {
 
-  private static final int DAYS = 30;
-  private static final int HOURS_PER_DAY = 24;
-  private static final int SECONDS_PER_HOUR = 3600;
-  private static final int SECONDS_PER_MONTH = DAYS * HOURS_PER_DAY * SECONDS_PER_HOUR;
+  private void trace(Double[] values) {
+    final DecimalFormat df = new DecimalFormat("###"/*"###.00"*/);
+    // @formatter:off
+    Arrays.stream(values)
+      .map(v -> new BigDecimal(Double.toString(v)))
+      .map(bd -> df.format(bd))
+      .forEach(bd -> System.out.printf("%s, "/*"%7s"*/, bd));
+    // @formatter:on
+    System.out.println();
+  }
 
   @Test
-  void testSine() {
-    Function<Long, Double> sine1 = (l) -> 5 * Math.sin(l) + 5;
-    Function<Long, Double> sine2 = (l) -> 15 * Math.sin(l) + 15;
-    Double[] wave1 = Stream.iterate(0L, l -> l + 1).limit(SECONDS_PER_MONTH).map(sine1).toArray(Double[]::new);
-    Double[] wave2 = Stream.iterate(0L, l -> l + 1).limit(SECONDS_PER_MONTH).map(sine2).toArray(Double[]::new);
-    Double[] mixed = new Double[SECONDS_PER_MONTH];
-    Arrays.setAll(mixed, i -> wave1[i] + wave2[i]);
+  void generateConsolidatedData() {
 
-    int max = 10;
-    int min = 5;
-    int totalNumber = 10;
+    final int STANDARD_DEVIATION = 3;
+    final int SECONDS_PER_MONTH = 2_592_000; // 30 * 24 * 3600;
 
+    // TODO: Same period, same phase, ... to add?
+    final Function<Long, Double> SINE1 = (t) -> 50 * Math.sin(t) + 55;
+    final Function<Long, Double> SINE2 = (t) -> 130 * Math.sin(t) + 135;
+
+    // 1st sine wave ('t' symbolizes time)
+    Double[] waveOne = Stream.iterate(0L, t -> t + 1).limit(SECONDS_PER_MONTH).map(SINE1).toArray(Double[]::new);
+    //trace(waveOne);
+
+    // 2nd sine wave
+    Double[] waveTwo = Stream.iterate(0L, t -> t + 1).limit(SECONDS_PER_MONTH).map(SINE2).toArray(Double[]::new);
+    //trace(waveTwo);
+
+    // add waves
+    Double[] combinedWaves = new Double[SECONDS_PER_MONTH];
+    Arrays.setAll(combinedWaves, idx -> waveOne[idx] + waveTwo[idx]);
+    //trace(combinedWaves);
+
+    // add noise by randomizing values following the normal distribution
     Random random = new Random();
-    double randomInt = min + random.nextGaussian(max - min + 1);
-
-    DoubleStream stream = random.doubles(totalNumber, min, max);
-    stream.forEach(System.out::println);
-
+    Double[] randomizedWaves = new Double[SECONDS_PER_MONTH];
     // https://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
+    Arrays.setAll(randomizedWaves, i -> combinedWaves[i] + random.nextGaussian() * STANDARD_DEVIATION);
+    //trace(randomizedWaves);
+
+    // add anomalies to 10 percent of randomized values
+    int[] randomizedAnomaliesIdx = random.ints(SECONDS_PER_MONTH / 10, 0, SECONDS_PER_MONTH).toArray();
+    for (int idx : randomizedAnomaliesIdx) {
+      randomizedWaves[idx] = 1500 * random.nextDouble();
+    }
+    //trace(randomizedWaves);
   }
 }
