@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -38,23 +37,20 @@ class SineTests {
     System.out.println();
   }
 
-  private void scilab(Map<Long, Double> samples) throws IOException {
-    Path path = Paths.get(home + "/Desktop/sine.sci");
-
+  private void writeToScilabFile(Path outputFile, Map<Long, Double> samples) throws IOException {
     final StringBuffer xbuf = new StringBuffer();
     LongStream.range(0, samples.size()).forEach(l -> xbuf.append(l).append(","));
     xbuf.setLength(xbuf.length() - 1);
-    String xvar = "x=[" + xbuf.toString() + "];" + "\n";
-    Files.write(path, xvar.getBytes());
+    String xvar = "x=[" + xbuf.toString() + "];";
 
     final StringBuffer ybuf = new StringBuffer();
     samples.values().forEach(v -> ybuf.append(v).append(","));
     ybuf.setLength(ybuf.length() - 1);
-    String yvar = "y=[" + ybuf.toString() + "];" + "\n";
-    Files.write(path, yvar.getBytes(), StandardOpenOption.APPEND);
+    String yvar = "y=[" + ybuf.toString() + "];";
 
-    String plot = "plot(x,y);" + "\n";
-    Files.write(path, plot.getBytes(), StandardOpenOption.APPEND);
+    String content = xvar.toString() + "\n" + yvar.toString() + "\n" + "plot(x,y);" + "\n";
+
+    Files.write(outputFile, content.toString().getBytes());
   }
 
   private void writeToFile(Path outputFile, Map<Long, Double> samples) throws IOException {
@@ -128,19 +124,21 @@ class SineTests {
 
     final Random random = new Random();
     final int standardDeviation = 3; // 68%: 3, 95%: 6, >100%: ~9 => use 10 to avoid negative values
-    final Function<Long, Double> sine1 = (t) -> 5 * Math.sin(t) + 5 + (3 * standardDeviation);
-    final Function<Long, Double> sine2 = (t) -> 300 * Math.sin(t / 8 /* 3600 */) + 300 + (3 * standardDeviation);
+    // @formatter:off
+    final Function<Long, Double> sine1 = (t) -> 200 * Math.sin((2 * Math.PI) /  3600           * t) + 5   + (3 * standardDeviation);
+    final Function<Long, Double> sine2 = (t) -> 300 * Math.sin((2 * Math.PI) / (3600 * 24 * 7) * t) + 300 + (3 * standardDeviation);
+    // @formatter:on
 
     LocalDate startDate = LocalDate.parse("2018-08-01");
     LocalDate endDate = LocalDate.parse("2018-08-31");
 
-    LocalDate curDate = startDate;
-    while (curDate.isBefore(endDate) || curDate.isEqual(endDate)) {
+    for (LocalDate curDate = startDate; curDate.isBefore(endDate)
+        || curDate.isEqual(endDate); curDate = curDate.plusDays(1)) {
 
       long atBeginOfDay = curDate.atTime(LocalTime.MIN).toEpochSecond(ZoneOffset.of("+2"));
       long atEndOfDay = curDate.atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.of("+2"));
 
-      long numberOfAnomalies = (atEndOfDay - atBeginOfDay) / 100; // 1 percent anomalies
+      long numberOfAnomalies = (atEndOfDay - atBeginOfDay) / 10_000; // 0,0001 percent anomalies
       List<Long> anomaliesAt = random.longs(numberOfAnomalies, atBeginOfDay, atEndOfDay).boxed()
           .collect(Collectors.toList());
 
@@ -148,18 +146,15 @@ class SineTests {
       for (long at = atBeginOfDay; at <= atEndOfDay; at++) {
         double value = sine1.apply(at) + sine2.apply(at) + (random.nextGaussian() * standardDeviation);
         if (anomaliesAt.contains(at)) {
-          double min = value / 2;
+          double min = 0;
           double max = value * 2;
           value = min + (random.nextDouble() /* 0.0 < x < 1.0 */ * (max - min) + 1);
         }
         samples.put(at, value);
       }
 
-      Path outputFile = outputDir.resolve(curDate + ".con");
-      writeToFile(outputFile, samples);
-      // scilab(samples);
-
-      curDate = curDate.plusDays(1);
+      writeToFile(outputDir.resolve(curDate + ".con"), samples);
+      writeToScilabFile(outputDir.resolve(curDate + ".sci"), samples);
     }
   }
 }
