@@ -1,7 +1,7 @@
-package streams;
+package stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.eq;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,16 +11,20 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
-class StreamsTest {
+class StreamTest {
+
   class Pair {
     int id;
     String name;
@@ -49,57 +53,23 @@ class StreamsTest {
     }
   }
 
-  // Reduces a list of integers to a comma-separated string.
   @Test
-  void reduceListToString() {
+  void listToString() {
     List<Integer> list = List.of(1, 2, 3, 5, 8, 13, 21);
     String result = list.stream().map(String::valueOf).reduce((a, b) -> a + ", " + b).orElseGet(String::new);
-    assertEquals("1, 2, 3, 5, 8, 13, 21", result);
+    assertThat(result).isEqualTo("1, 2, 3, 5, 8, 13, 21");
   }
 
-  // Converts a list of integers to an array.
   @Test
-  void reduceListToArray() {
+  void listToArray() {
     List<Integer> list = List.of(1, 2, 3, 5, 8, 13, 21);
+    // variant 1
     Integer[] result = list.stream().toArray(Integer[]::new);
-    assertTrue(Arrays.equals(new Integer[] { 1, 2, 3, 5, 8, 13, 21 }, result));
-  }
+    assertThat(result).isEqualTo(new Integer[] { 1, 2, 3, 5, 8, 13, 21 });
+    // variant 2
+    int[] result2 = list.stream().mapToInt(l -> l).toArray();
+    assertThat(result2).isEqualTo(new Integer[] { 1, 2, 3, 5, 8, 13, 21 });
 
-  // Converts a list of integers to an scalar array.
-  @Test
-  void reduceListToArray2() {
-    List<Integer> list = List.of(1, 2, 3, 5, 8, 13, 21);
-    int[] result = list.stream().mapToInt(l -> l).toArray();
-    assertTrue(Arrays.equals(new int[] { 1, 2, 3, 5, 8, 13, 21 }, result));
-  }
-
-  @Test
-  void groupingBy() {
-    List<Pair> pairs = List.of(new Pair(2, "B"), new Pair(1, "A"), new Pair(3, "C"), new Pair(1, "AA"),
-        new Pair(2, "BB"));
-    Map<Integer, List<Pair>> groupedByPairs = pairs.stream().collect(Collectors.groupingBy(Pair::getId));
-    assertEquals(groupedByPairs.toString(),
-        "{1=[StreamsTest.Pair(id=1, name=A), StreamsTest.Pair(id=1, name=AA)], 2=[StreamsTest.Pair(id=2, name=B), StreamsTest.Pair(id=2, name=BB)], 3=[StreamsTest.Pair(id=3, name=C)]}");
-  }
-
-  @Test
-  void sorted() {
-    List<Pair> pairs = List.of(new Pair(2, "B"), new Pair(1, "A"), new Pair(3, "C"));
-    List<Pair> sortedPairs = pairs.stream().sorted(Comparator.comparing(Pair::getId)).collect(Collectors.toList());
-    assertEquals(sortedPairs.toString(),
-        "[StreamsTest.Pair(id=1, name=A), StreamsTest.Pair(id=2, name=B), StreamsTest.Pair(id=3, name=C)]");
-  }
-
-  @Test
-  void accummulate() {
-    List<Integer> list = List.of(1, 2, 3, 4, 5);
-    List<Long> accuList = new ArrayList<>();
-    long accu = 0;
-    for (Integer i : list) {
-      accu = accu + i;
-      accuList.add(accu);
-    }
-    System.out.println(accuList.toString());
   }
 
   /**
@@ -136,5 +106,34 @@ class StreamsTest {
       double avg = entry.getValue().stream().mapToDouble(Point::getValue).average().getAsDouble();
       avgMap.put(entry.getKey(), avg);
     }
+  }
+
+  @Test
+  void groupingBy() {
+    List<Pair> pairs = List.of(new Pair(1, "A"), new Pair(1, "B"), new Pair(2, "C"), new Pair(3, "D"));
+    Map<Integer, List<Pair>> groupedBy = pairs.stream().collect(Collectors.groupingBy(Pair::getId));
+    assertThat(groupedBy.size()).isEqualTo(3);
+    assertThat(groupedBy.get(1).size()).isEqualTo(2);
+    assertThat(groupedBy.get(2).size()).isEqualTo(1);
+    assertThat(groupedBy.get(3).size()).isEqualTo(1);
+  }
+
+  @Test
+  void sorted() {
+    List<Integer> list = List.of(2, 3, 1);
+    List<Integer> sorted = list.stream().sorted(Comparator.comparing(Integer::intValue)).collect(Collectors.toList());
+    assertThat(sorted).isEqualTo(List.of(1, 2, 3));
+  }
+
+  @Test
+  void partion() {
+    final int size = 2;
+    final AtomicInteger counter = new AtomicInteger(0);
+    List<Integer> list = List.of(1, 2, 3, 4, 5);
+    Collection<List<Integer>> actual = list.stream().collect(Collectors.groupingBy(it -> counter.getAndIncrement() / size)).values();
+    assertThat(actual.size()).isEqualTo(3);
+    assertThat(new ArrayList<>(actual).get(0).size()).isEqualTo(2);
+    assertThat(new ArrayList<>(actual).get(1).size()).isEqualTo(2);
+    assertThat(new ArrayList<>(actual).get(2).size()).isEqualTo(1);
   }
 }

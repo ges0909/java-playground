@@ -1,7 +1,7 @@
 package junit5;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,8 +37,8 @@ import org.junit.jupiter.api.TestInfo;
  *      "http://www.ibm.com/developerworks/library/j-introducing-junit5-part1-jupiter-api/index.html">Introducing
  *      JUnit 5</a>
  */
-class BasicsTests {
-	final static Logger log = Logger.getLogger(BasicsTests.class.getName());
+class BasicsTest {
+	final static Logger log = Logger.getLogger(BasicsTest.class.getName());
 
 	@BeforeAll
 	static void init() { // class method, therefore has to be static

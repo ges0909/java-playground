@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 
-public class RepeatedTests {
+public class RepeatTest {
 	private static int repetitionCount = 0;
 
 	/**

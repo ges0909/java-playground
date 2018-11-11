@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  * </ul>
  * 
  */
-public class ParameterizedTests {
+public class ParameterTest {
 
 	class Person {
 		String firstName;
@@ -87,8 +87,8 @@ public class ParameterizedTests {
 		@SuppressWarnings("serial")
 		List<Person> list = new ArrayList<Person>() {
 			{
-				add(new ParameterizedTests().new Person("Cold", "Play"));
-				add(new ParameterizedTests().new Person("Neil", "Young"));
+				add(new ParameterTest().new Person("Cold", "Play"));
+				add(new ParameterTest().new Person("Neil", "Young"));
 			}
 		};
 		return list.stream();

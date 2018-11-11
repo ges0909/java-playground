@@ -6,7 +6,7 @@ import java.text.MessageFormat;
 
 import org.junit.jupiter.api.Test;
 
-class UtilsTests {
+class UtilsTest {
     @Test
     void convertCamelToUpperAndUnderscore() {
         assertThat("NONE").isEqualTo(Utils.camelToUpperAndUnderscore("none"));

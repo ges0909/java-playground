@@ -1,4 +1,4 @@
-package streams;
+package stream;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

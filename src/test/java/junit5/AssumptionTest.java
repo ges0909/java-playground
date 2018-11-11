@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assumptions.assumingThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class AssumptionTests {
+public class AssumptionTest {
 	@DisplayName("assumeTrue")
 	@Test
 	void testAssumeTrue() {

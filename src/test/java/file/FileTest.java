@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-class FileTests {
+class FileTest {
 
   @Test
   void stream() throws IOException {

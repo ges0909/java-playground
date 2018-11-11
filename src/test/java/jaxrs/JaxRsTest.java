@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class JaxRsTests {
+public class JaxRsTest {
   private final WebTarget target = ClientBuilder.newClient().target("http://jsonplaceholder.typicode.com");
 
   @Nested

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-class EnumTests {
+class EnumTest {
 	enum Medium {
 		ENERGY, GAS, WATER, OIL, STEAM;
 	};
