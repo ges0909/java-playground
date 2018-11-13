@@ -1,0 +1,32 @@
+package junit5test;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
+
+public class AssumptionTest {
+    @DisplayName("assumeTrue")
+    @Test
+    void testAssumeTrue() {
+        String os = "windows";
+        assumeTrue(!"linux".equals(os));
+    }
+
+    @DisplayName("assumeTrue")
+    @Test
+    void testAssumeTrue2() {
+        String os = "linux";
+        assumeTrue("linux".equals(os));
+    }
+
+    @SuppressWarnings("null")
+    @DisplayName("assumingThat")
+    @Test
+    void testAssumingThat() {
+        String s = null;
+        String os = "windows";
+        assumingThat("linux".equals(os), () -> s.length());
+    }
+}

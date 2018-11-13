@@ -17,7 +17,7 @@
       //   "owner": "external",
       //   "fileLocation": ["absolute"],
       //   "pattern": {
-      //     "regexp": "^(.+\\.java):(\\d):(?:\\s+(error)):(?:\\s+(.*))$",
+      //     "regexptest": "^(.+\\.java):(\\d):(?:\\s+(error)):(?:\\s+(.*))$",
       //     "file": 1,
       //     "location": 2,
       //     "severity": 3,
