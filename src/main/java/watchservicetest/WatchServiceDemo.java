@@ -1,23 +1,19 @@
-package watchservice;
+package watchservicetest;
 
-import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
-import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
-
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.nio.file.Watchable;
+import java.nio.file.*;
 import java.util.logging.Logger;
+
+import static java.nio.file.StandardWatchEventKinds.*;
 
 public class WatchServiceDemo {
 
     private static final Path PATH = Paths.get("./data");
     private static final Logger log = Logger.getLogger(WatchServiceDemo.class.getName());
+
+    @SuppressWarnings("unchecked")
+    static <T> WatchEvent<T> cast(WatchEvent<?> event) {
+        return (WatchEvent<T>) event;
+    }
 
     public void run() {
         log.fine("start long-running filesystem watch service");
@@ -31,7 +27,7 @@ public class WatchServiceDemo {
                     Watchable watchable = key.watchable();
                     Path head = (Path) watchable; // observed path
                     WatchEvent<Path> ev = cast(event);
-                    Path tail = ev.context(); // name of file created/modified/deleted
+                    Path tail = ev.context(); // name of filetest created/modified/deleted
                     if (kind == OVERFLOW) {
                         log.warning("watch service overflow for observed path: " + head);
                         continue;
@@ -52,10 +48,5 @@ public class WatchServiceDemo {
         } catch (Exception e) {
             log.severe(e.getLocalizedMessage());
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-        return (WatchEvent<T>) event;
     }
 }
