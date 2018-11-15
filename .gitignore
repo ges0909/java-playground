@@ -16,3 +16,6 @@ out/
 bin/
 .classpath
 .project
+
+# Big test files
+test-*.log
