@@ -28,31 +28,27 @@ class ParallelStreamTest {
     @Test
     public void testIntegerParallelStream() {
         Integer[] integerArray = {1, 1, 2, 2, 2, 3, 4, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 7, 7, 4, 5};
-        // @formatter:off
-    Stream.of(integerArray)
-      .parallel()
-      .collect(Collectors.groupingByConcurrent(Integer::intValue)) // => ConcurrentMap<Integer, List<Integer>>
-      .entrySet()
-      .stream()
-      // .peek(System.out::println)
-      .map(this::sumInt)
-      // .collect(Collectors.toList())
-      .forEachOrdered(System.out::println);
-    // @formatter:on
+        Stream.of(integerArray)
+                .parallel()
+                .collect(Collectors.groupingByConcurrent(Integer::intValue)) // => ConcurrentMap<Integer, List<Integer>>
+                .entrySet()
+                .stream()
+                // .peek(System.out::println)
+                .map(this::sumInt)
+                // .collect(Collectors.toList())
+                .forEachOrdered(System.out::println);
     }
 
     @Test
     public void testLongParallelStream() {
-        // @formatter:off
-    Stream.iterate(0L, l -> l + 1).limit(1_000_000)
-      .parallel()
-      .collect(Collectors.groupingByConcurrent(Long::longValue))
-      .entrySet()
-      .stream()
-      .map(this::sumLong)
-  //    .collect(Collectors.toList())
-      .forEachOrdered(System.out::println);
-    // @formatter:on
+        Stream.iterate(0L, l -> l + 1).limit(1_000_000)
+                .parallel()
+                .collect(Collectors.groupingByConcurrent(Long::longValue))
+                .entrySet()
+                .stream()
+                .map(this::sumLong)
+                //    .collect(Collectors.toList())
+                .forEachOrdered(System.out::println);
     }
 
     @Test
@@ -60,20 +56,18 @@ class ParallelStreamTest {
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-100_000.log").toURI());
         try (Stream<String> lines = Files.lines(in)) {
             lines
-                    // @formatter:off
-        .parallel()
-        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .filter(Entry::isError)
-        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
-        .entrySet()
-        .stream()
-        .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // <= Map.Entry<Long, Integer>
-        .sorted(Map.Entry.comparingByKey())
-        .collect(Collectors.toList())
-        .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
-      // @formatter:on
+                    .parallel()
+                    .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(Entry::isError)
+                    .collect(Collectors.groupingByConcurrent(Entry::getTimestamp)) // groups log entries by timestamp as Map<Long, List<LogEntry>>
+                    .entrySet()
+                    .stream()
+                    .map(e -> new AbstractMap.SimpleEntry<Long, Integer>(e.getKey(), e.getValue().size())) // <= Map.Entry<Long, Integer>
+                    .sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toList())
+                    .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
         }
     }
 
@@ -82,19 +76,17 @@ class ParallelStreamTest {
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
         try (Stream<String> lines = Files.lines(in)) {
             lines
-                    // @formatter:off
-        .parallel()
-        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .filter(Entry::isError)
-        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting())) // =>  Map<Long, Integer>
-        .entrySet()
-        .stream()
-        .sorted(Map.Entry.comparingByKey())
-        .collect(Collectors.toList())
-        .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
-      // @formatter:on
+                    .parallel()
+                    .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(Entry::isError)
+                    .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting())) // =>  Map<Long, Integer>
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toList())
+                    .forEach(e -> System.out.println(e.getKey() + " " + e.getValue())); // Map.Entry::getKey, Map.Entry::getValue
         }
     }
 
@@ -114,20 +106,18 @@ class ParallelStreamTest {
         Path out = Paths.get(HOME + "/Desktop/numbers_sort.txt");
         try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
             lines
-                    // @formatter:off
-        .parallel()
-        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .filter(Entry::isError)
-        // group entries by timestamp (result. Map<Long, List<LogEnry>) and count values (result: Map<Long, Integer>)
-        .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting()))
-        .entrySet()
-        .stream()
-        .sorted(Map.Entry.comparingByKey())
-        .collect(Collectors.toList())
-        .forEach(e -> pw.println(e.getKey() + " " + e.getValue()));
-      // @formatter:on
+                    .parallel()
+                    .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(Entry::isError)
+                    // group entries by timestamp (result. Map<Long, List<LogEnry>) and count values (result: Map<Long, Integer>)
+                    .collect(Collectors.groupingByConcurrent(Entry::getTimestamp, Collectors.counting()))
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toList())
+                    .forEach(e -> pw.println(e.getKey() + " " + e.getValue()));
         }
         //
         long stop = System.currentTimeMillis();
@@ -142,19 +132,17 @@ class ParallelStreamTest {
         Path out = Paths.get(HOME + "/Desktop/numbers_par.txt");
         try (Stream<String> lines = Files.lines(in); PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
             lines
-                    // @formatter:off
-        .parallel()
-        .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .filter(Entry::isError)
-        // Group entries by timestamp:
-        // (1) 'groupingBy' generates a Map<Long, List<LogEnry>
-        // (2) 'Collectors.counting() generates a Map<Long, Long> by counting the entries in 'List<LogEnry>'
-        // (3) 'LinkedHashMap::new' keeps the order to avoid subsequent sorting
-        .collect(Collectors.groupingBy(Entry::getTimestamp, LinkedHashMap::new, Collectors.counting()))
-        .forEach((k, v) -> pw.println(k + " " + v));
-      // @formatter:on
+                    .parallel()
+                    .map(line -> Entry.of(line, Entry.Format.LOG_ENTRY))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(Entry::isError)
+                    // Group entries by timestamp:
+                    // (1) 'groupingBy' generates a Map<Long, List<LogEnry>
+                    // (2) 'Collectors.counting() generates a Map<Long, Long> by counting the entries in 'List<LogEnry>'
+                    // (3) 'LinkedHashMap::new' keeps the order to avoid subsequent sorting
+                    .collect(Collectors.groupingBy(Entry::getTimestamp, LinkedHashMap::new, Collectors.counting()))
+                    .forEach((k, v) -> pw.println(k + " " + v));
         }
         //
         long stop = System.currentTimeMillis();

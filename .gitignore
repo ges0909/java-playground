@@ -1,14 +1,18 @@
-.classpath
-.project
+# Gradle
+.gradle/
+build/
+gradle/
 settings.gradle
 gradlew.bat
 gradlew
-.gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
 .settings/
 bin/
-build/
-gradle/
-.sts4-cache/
-src/test/resources/streams/test-100_000.log
-src/test/resources/streams/test-1_000_000.log
-/src/test/resources/streams/test-1_000.log
+.classpath
+.project
