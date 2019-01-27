@@ -1,11 +1,10 @@
-package watchservicetest;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import watchservicetest.WatchServiceDemo;
 
-public class WatchServiceTest {
+class WatchServiceTests {
 
-    WatchServiceDemo ws;
+    private WatchServiceDemo ws;
 
     @BeforeEach
     void setUp() {
