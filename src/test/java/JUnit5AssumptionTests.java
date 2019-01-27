@@ -1,12 +1,10 @@
-package junit5test;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
 
-public class AssumptionTest {
+class JUnit5AssumptionTests {
     @DisplayName("assumeTrue")
     @Test
     void testAssumeTrue() {

@@ -1,5 +1,3 @@
-package jaxrstest;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,8 +15,18 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class JaxRsTest {
-    private final WebTarget target = ClientBuilder.newClient().target("http://jsonplaceholder.typicode.com");
+class JaxRsTests {
+    final WebTarget target = ClientBuilder.newClient().target("http://jsonplaceholder.typicode.com");
+
+    class Post {
+        String title;
+        String body;
+        int userId;
+        int id;
+
+        public Post() {
+        }
+    }
 
     @Nested
     class SyncTests {

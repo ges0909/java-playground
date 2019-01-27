@@ -1,5 +1,4 @@
-package filetest;
-
+import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,11 +11,11 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FileTest {
+class FileTests {
 
     @Test
     void streamFileContent() throws IOException {
-        Path path = Paths.get("testdatei.txt").toAbsolutePath();
+        Path path = Paths.get("src/test/java/testdatei.txt").toAbsolutePath();
         List<String> list;
         try (Stream<String> stream = Files.lines(path)) {
             list = stream

@@ -1,5 +1,3 @@
-package streamtest;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -8,10 +6,10 @@ import java.util.regex.Pattern;
 
 class LogEntry extends Entry {
 
-    static String regex = "\\[(.*)]\\s\\[(.*):(.*)]\\s\\[(.*)]\\s\\[(.*)]\\s(.+)";
-    static Pattern pattern = Pattern.compile(regex);
+    private static String regex = "\\[(.*)]\\s\\[(.*):(.*)]\\s\\[(.*)]\\s\\[(.*)]\\s(.+)";
+    private static Pattern pattern = Pattern.compile(regex);
 
-    public LogEntry(String line) {
+    LogEntry(String line) {
         Matcher matches = pattern.matcher(line);
         if (matches.find()) {
             String group1 = matches.group(1);

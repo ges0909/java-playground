@@ -1,2 +1,18 @@
 {
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.test.config": [
+    {
+      "name": "javatuples tests",
+      "workingDirectory": "${workspaceFolder}",
+      "args": [
+        "--select-package",
+        "tuple"
+      ],
+      "vmargs": [
+      ],
+      "env": {
+      }
+    }
+  ],
+  "java.test.defaultConfig": "default"
 }

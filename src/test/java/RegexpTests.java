@@ -1,14 +1,13 @@
-package regexptest;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexpTest {
+class RegexpTests {
+
     @Test
-    public void testRegExp() {
+    void testRegExp() {
         final String original = "[2018-07-27T11:00:39+02:00] [exercitationem:alert] [pid 8465:tid 1299] [client: 219.6.70.13] You can't hack the microchip without connecting the cross-platform SAS hard drive!";
 
         String regex = "\\[(.*)]\\s\\[(.*)]\\s\\[(.*)]\\s\\[(.*)]\\s(.+)";

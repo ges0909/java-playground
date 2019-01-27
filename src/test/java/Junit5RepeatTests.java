@@ -1,12 +1,10 @@
-package junit5test;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RepeatTest {
+class Junit5RepeatTests {
     private static int repetitionCount = 0;
 
     /**

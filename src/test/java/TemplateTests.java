@@ -1,13 +1,8 @@
-package freemarkertest;
-
 import freemarker.TemplateEngine;
 import freemarker.TemplateType;
-import freemarker.template.TemplateException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -15,8 +10,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-class TemplateTest {
-    static TemplateEngine template = new TemplateEngine();
+class TemplateTests {
+    private static TemplateEngine template = new TemplateEngine();
 
     @ParameterizedTest
     @CsvSource({

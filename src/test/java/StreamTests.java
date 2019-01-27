@@ -1,5 +1,3 @@
-package streamtest;
-
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
@@ -10,7 +8,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class StreamTest {
+class StreamTests {
 
     @Test
     void listToString() {

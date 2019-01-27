@@ -1,5 +1,3 @@
-package mathtest;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-class SineTest {
+class SineTests {
 
     private static final String home = System.getProperty("user.home");
     private static final Path outputDir = Paths.get(home + "/Desktop/testOutput");
@@ -25,11 +23,11 @@ class SineTest {
     private void trace(Double[] values) {
         final DecimalFormat df = new DecimalFormat("###"/* "###.00" */);
         // @formatter:off
-    Arrays.stream(values)
-      .map(v -> new BigDecimal(Double.toString(v)))
-      .map(bd -> df.format(bd))
-      .forEach(bd -> System.out.printf("%s, "/*"%7s"*/, bd));
-    // @formatter:on
+        Arrays.stream(values)
+                .map(v -> new BigDecimal(Double.toString(v)))
+                .map(bd -> df.format(bd))
+                .forEach(bd -> System.out.printf("%s, "/*"%7s"*/, bd));
+        // @formatter:on
         System.out.println();
     }
 
@@ -44,9 +42,9 @@ class SineTest {
         ybuf.setLength(ybuf.length() - 1);
         String yvar = "y=[" + ybuf.toString() + "];";
 
-        String content = xvar.toString() + "\n" + yvar.toString() + "\n" + "plot(x,y);" + "\n";
+        String content = xvar + "\n" + yvar + "\n" + "plot(x,y);" + "\n";
 
-        Files.write(outputFile, content.toString().getBytes());
+        Files.write(outputFile, content.getBytes());
     }
 
     private void writeToFile(Path outputFile, Map<Long, Double> samples) throws IOException {
@@ -116,13 +114,13 @@ class SineTest {
     }
 
     @Test
-    public void testGenerator() throws IOException {
+    void testGenerator() throws IOException {
         final Random random = new Random();
         final int standardDeviation = 30; // 68%: 3, 95%: 6, >100%: ~9 => use 10 to avoid negative values
         // @formatter:off
-      final Function<Long, Double> sine1 = (t) -> 200 * Math.sin((2 * Math.PI) /  3600           * t) + 5   + (3 * standardDeviation);
-      final Function<Long, Double> sine2 = (t) -> 300 * Math.sin((2 * Math.PI) / (3600 * 24 * 7) * t) + 300 + (3 * standardDeviation);
-      // @formatter:on
+        final Function<Long, Double> sine1 = (t) -> 200 * Math.sin((2 * Math.PI) / 3600 * t) + 5 + (3 * standardDeviation);
+        final Function<Long, Double> sine2 = (t) -> 300 * Math.sin((2 * Math.PI) / (3600 * 24 * 7) * t) + 300 + (3 * standardDeviation);
+        // @formatter:on
 
         LocalDate startDate = LocalDate.parse("2018-08-01");
         LocalDate endDate = LocalDate.parse("2018-08-31");

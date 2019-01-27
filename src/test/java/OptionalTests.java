@@ -1,5 +1,3 @@
-package optionaltest;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -7,7 +5,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OptionalTest {
+class OptionalTests {
     @Test
     void empty() {
         Optional<String> empty = Optional.empty();

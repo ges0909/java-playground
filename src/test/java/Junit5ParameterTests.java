@@ -1,5 +1,3 @@
-package junit5test;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -28,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * <li>@MethodSource</li>
  * </ul>
  */
-public class ParameterTest {
+class Junit5ParameterTests {
 
     @SuppressWarnings("unused")
     private static IntStream createIntStream() { // must be static
@@ -40,8 +38,8 @@ public class ParameterTest {
         @SuppressWarnings("serial")
         List<Person> list = new ArrayList<Person>() {
             {
-                add(new ParameterTest().new Person("Cold", "Play"));
-                add(new ParameterTest().new Person("Neil", "Young"));
+                add(new Junit5ParameterTests().new Person("Cold", "Play"));
+                add(new Junit5ParameterTests().new Person("Neil", "Young"));
             }
         };
         return list.stream();
@@ -98,14 +96,14 @@ public class ParameterTest {
     @ParameterizedTest(name = "{index}: {0} + {1} = {2}")
     @CsvSource({"1, 1, 2", "2, 4, 6", "3, 9, 12"})
     void testCvsSource(int a, int b, int c) {
-        assertTrue(a + b == c);
+        assertEquals(c, a + b);
     }
 
     @DisplayName("@CsvFileSource")
     @ParameterizedTest(name = "{index}:  {0} + {1} = {2}")
     @CsvFileSource(resources = "/add.csv")
     void testCvsFileSource(int a, int b, int c) {
-        assertTrue(a + b == c);
+        assertEquals(c, a + b);
     }
 
     class Person {
@@ -142,11 +140,8 @@ public class ParameterTest {
             } else if (!firstName.equals(other.firstName))
                 return false;
             if (lastName == null) {
-                if (other.lastName != null)
-                    return false;
-            } else if (!lastName.equals(other.lastName))
-                return false;
-            return true;
+                return other.lastName == null;
+            } else return lastName.equals(other.lastName);
         }
     }
 }

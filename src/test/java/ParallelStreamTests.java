@@ -1,5 +1,3 @@
-package streamtest;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-class ParallelStreamTest {
+class ParallelStreamTests {
 
     private final String HOME = System.getenv("HOMEPATH");
 
@@ -26,7 +24,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testIntegerParallelStream() {
+    void testIntegerParallelStream() {
         Integer[] integerArray = {1, 1, 2, 2, 2, 3, 4, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 7, 7, 4, 5};
         Stream.of(integerArray)
                 .parallel()
@@ -40,7 +38,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testLongParallelStream() {
+    void testLongParallelStream() {
         Stream.iterate(0L, l -> l + 1).limit(1_000_000)
                 .parallel()
                 .collect(Collectors.groupingByConcurrent(Long::longValue))
@@ -52,7 +50,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testFileStream() throws URISyntaxException, IOException {
+    void testFileStream() throws URISyntaxException, IOException {
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-100_000.log").toURI());
         try (Stream<String> lines = Files.lines(in)) {
             lines
@@ -72,7 +70,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testFileStreamModified() throws URISyntaxException, IOException {
+    void testFileStreamModified() throws URISyntaxException, IOException {
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
         try (Stream<String> lines = Files.lines(in)) {
             lines
@@ -91,7 +89,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testWriteStreamToFile() throws IOException {
+    void testWriteStreamToFile() throws IOException {
         Path out = Paths.get(HOME + "/Desktop/numbers.txt");
         try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(out))) {
             IntStream.range(0, 99).mapToObj(String::valueOf).forEach(pw::println);
@@ -99,7 +97,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testConsolidate() throws URISyntaxException, IOException {
+    void testConsolidate() throws URISyntaxException, IOException {
         long start = System.currentTimeMillis();
         //
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());
@@ -125,7 +123,7 @@ class ParallelStreamTest {
     }
 
     @Test
-    public void testConsolidateWithoutOrdering() throws URISyntaxException, IOException {
+    void testConsolidateWithoutOrdering() throws URISyntaxException, IOException {
         long start = System.currentTimeMillis();
         //
         Path in = Paths.get(getClass().getClassLoader().getResource("streams/test-1_000_000.log").toURI());

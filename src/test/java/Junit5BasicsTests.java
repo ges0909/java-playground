@@ -1,5 +1,3 @@
-package junit5test;
-
 import org.junit.jupiter.api.*;
 
 import java.util.Set;
@@ -23,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see <a href= "http://www.ibm.com/developerworks/library/j-introducing-junit5-part1-jupiter-api/index.html">Introducing
  * JUnit 5</a>
  */
-class BasicsTest {
-    final static Logger log = Logger.getLogger(BasicsTest.class.getName());
+class Junit5BasicsTests {
+    private final static Logger log = Logger.getLogger(Junit5BasicsTests.class.getName());
 
     @BeforeAll
     static void init() { // class method, therefore has to be static
@@ -117,8 +115,9 @@ class BasicsTest {
          */
         void testAssertAll() {
             String actual = "simple";
-            assertAll("any error message", () -> assertNotNull(actual), () -> assertEquals("simple", actual),
-                    () -> assertTrue("simple".equals(actual)));
+            assertAll("any error message",
+                    () -> assertNotNull(actual),
+                    () -> assertEquals("simple", actual));
         }
 
         @Test
