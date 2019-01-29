@@ -1,4 +1,4 @@
-package resourcetest;
+package resource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class Resource {
+public class ResourceDemo {
     public String getCSV(String csvFileName) {
         StringBuilder data = new StringBuilder();
         try {

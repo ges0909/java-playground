@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import watchservicetest.WatchServiceDemo;
+import watchservice.WatchServiceDemo;
 
 class WatchServiceTests {
 

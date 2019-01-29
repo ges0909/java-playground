@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class EnumTests {
+
     @Test
     void ordinal() {
         Medium medium = Medium.ENERGY;
@@ -12,18 +13,18 @@ class EnumTests {
 
     @Test
     void name() {
-        Medium medium = Medium.ENERGY;
-        assertEquals("ENERGY", medium.name());
+        Medium medium = Medium.GAS;
+        assertEquals("GAS", medium.name());
     }
 
     @Test
     void valueOfString() {
-        assertEquals(Medium.ENERGY, Medium.valueOf("ENERGY"));
+        assertEquals(Medium.WATER, Medium.valueOf("WATER"));
     }
 
     @Test
     void valueOfOrdinal() {
-        assertEquals(Medium.ENERGY, Medium.values()[0]);
+        assertEquals(Medium.OIL, Medium.values()[3]);
     }
 
     @Test

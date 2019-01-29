@@ -1,4 +1,4 @@
-package watchservicetest;
+package watchservice;
 
 import java.nio.file.*;
 import java.util.logging.Logger;
@@ -11,7 +11,7 @@ public class WatchServiceDemo {
     private static final Logger log = Logger.getLogger(WatchServiceDemo.class.getName());
 
     @SuppressWarnings("unchecked")
-    static <T> WatchEvent<T> cast(WatchEvent<?> event) {
+    private static <T> WatchEvent<T> cast(WatchEvent<?> event) {
         return (WatchEvent<T>) event;
     }
 
