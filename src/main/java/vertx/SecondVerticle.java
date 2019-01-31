@@ -4,12 +4,12 @@ import io.vertx.core.AbstractVerticle;
 
 class SecondVerticle extends AbstractVerticle {
     @Override
-    public void start() throws Exception {
-        System.out.println("SecondVerticle started");
+    public void start() {
+        System.out.println("second verticle started");
     }
 
     @Override
-    public void stop() throws Exception {
-        System.out.println("SecondVerticle stopped");
+    public void stop() {
+        System.out.println("second verticle stopped");
     }
 }

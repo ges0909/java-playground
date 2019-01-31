@@ -5,15 +5,15 @@ import io.vertx.core.Future;
 
 class BasicVerticle extends AbstractVerticle {
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
-        System.out.println("BasicVerticle started");
+    public void start(Future<Void> startFuture) {
+        System.out.println("basic verticle started");
         vertx.deployVerticle(new SecondVerticle());
         startFuture.complete();
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
-        System.out.println("BasicVerticle stopped");
+    public void stop(Future<Void> stopFuture) {
+        System.out.println("basic verticle stopped");
         stopFuture.complete();
     }
 }

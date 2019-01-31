@@ -4,17 +4,17 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 
 class ReceiverVerticle extends AbstractVerticle {
-    private String name = null;
+    private String name;
 
-    public ReceiverVerticle(String name) {
+    ReceiverVerticle(String name) {
         this.name = name;
     }
 
     @Override
     public void start(Future<Void> startFuture) {
-        vertx.eventBus().consumer("anAddress", message -> {
-            System.out.println(this.name + " received message: " + message.body());
-        });
+        vertx.eventBus().consumer("anAddress",
+                msg -> System.out.println(this.name + " received message: " + msg.body())
+        );
         startFuture.complete();
     }
 }

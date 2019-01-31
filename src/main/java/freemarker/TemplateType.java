@@ -1,11 +1,11 @@
 package freemarker;
 
 public enum TemplateType {
-    MeteringPointCounter_Alarm("meteringpointcounteralarm");
+    MeteringPointCounter_Alarm("metering-point-counter-alarm");
 
     String value;
 
-    private TemplateType(String value) {
+    TemplateType(String value) {
         this.value = value;
     }
 

@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 public class TemplateEngine {
-    static Configuration configuration = new Configuration();
+    private static Configuration configuration = new Configuration();
 
     public TemplateEngine() {
         configuration.setClassForTemplateLoading(getClass(), "/ftl");
