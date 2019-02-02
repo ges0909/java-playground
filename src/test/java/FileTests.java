@@ -1,5 +1,4 @@
-import org.javatuples.Pair;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class FileTests {
 
@@ -19,9 +18,9 @@ class FileTests {
         List<String> list;
         try (Stream<String> stream = Files.lines(path)) {
             list = stream
-                    .filter(line -> !line.startsWith("Zeile 2"))
-                    .map(String::toUpperCase)
-                    .collect(Collectors.toList());
+                .filter(line -> !line.startsWith("Zeile 2"))
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
         }
         assertThat(list.size()).isEqualTo(2);
     }
