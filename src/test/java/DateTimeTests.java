@@ -152,8 +152,8 @@ class DateTimeTests {
     void currentYear() {
         LocalDate startDate = NOW.withDayOfYear(1);
         LocalDate endDate = NOW;
-        assertEquals("01/01/2018", startDate.format(FORMAT));
-        assertEquals("23/03/2018", endDate.format(FORMAT));
+        assertEquals("01/01/" + startDate.getYear(), startDate.format(FORMAT));
+        assertEquals(endDate.getDayOfMonth() + "/" + endDate.getMonthValue() + "/" + endDate.getYear(), endDate.format(FORMAT));
     }
 
     @Test
@@ -161,8 +161,8 @@ class DateTimeTests {
     void lastYear() {
         LocalDate startDate = NOW.minusYears(1).withDayOfYear(1);
         LocalDate endDate = NOW.minusYears(1).withDayOfYear(365);
-        assertEquals("01/01/2017", startDate.format(FORMAT));
-        assertEquals("31/12/2017", endDate.format(FORMAT));
+        assertEquals("01/01/" + startDate.getYear(), startDate.format(FORMAT));
+        assertEquals("31/12/" + endDate.getYear(), endDate.format(FORMAT));
     }
 
     @Test
@@ -197,8 +197,8 @@ class DateTimeTests {
     void lastMonth() {
         LocalDate startDate = NOW.minusMonths(1).withDayOfMonth(1);
         LocalDate endDate = NOW.minusMonths(1).withDayOfMonth(28);
-        assertEquals("01/02/2018", startDate.format(FORMAT));
-        assertEquals("28/02/2018", endDate.format(FORMAT));
+        assertEquals("01/02/" + startDate.getYear(), startDate.format(FORMAT));
+        assertEquals("28/02/" + endDate.getYear(), endDate.format(FORMAT));
     }
 
     @Test
